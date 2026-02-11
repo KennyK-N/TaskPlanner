@@ -1,4 +1,5 @@
-import os 
+import os
+
 
 class APP_CONFIG:
     SECRET_KEY = os.getenv("FLASK_SECRET_KEY")

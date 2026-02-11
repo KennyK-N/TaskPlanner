@@ -1,3 +1,3 @@
 APPLICATION_NAME = "Taskplanner"
-LANGUAGE = 'en'
-IP_LOC = 'me'
+LANGUAGE = "en"
+IP_LOC = "me"

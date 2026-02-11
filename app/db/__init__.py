@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-db_bp = Blueprint('db', __name__)
+db_bp = Blueprint("db", __name__)
 
 from . import model
 
