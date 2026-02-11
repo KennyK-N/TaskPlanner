@@ -1,0 +1,36 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+/>
+<link rel="stylesheet" href="static/CSS/flag.css" />
+
+{% with messages = get_flashed_messages() %} {% if messages %} {% if
+messages[0]["success"] %}
+<div class="alert alert-dismissible fade show" role="alert">
+  <div class="aui-message success closeable">
+    {{ messages[0]["message"] }}
+    <span
+      class="aui-icon icon-close fa fa-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+      role="button"
+      tabindex="0"
+      style="color: black"
+    ></span>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-dismissible fade show" role="alert">
+  <div class="aui-message error closeable">
+    {{ messages[0]["message"] }}
+    <span
+      class="aui-icon icon-close fa fa-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+      role="button"
+      tabindex="0"
+      style="color: black"
+    ></span>
+  </div>
+</div>
+{% endif %} {% endif %} {% endwith %}

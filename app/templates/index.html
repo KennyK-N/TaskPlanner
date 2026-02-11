@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  {% include "./partials/head.html" %}
+  <head>
+    <link rel="stylesheet" href="static/CSS/index.css" />
+  </head>
+  <body>
+    {% include "./partials/navbar.html" %} {% include
+    "./partials/flash_message.html"%}
+    <div class="container mb-3 mt-3">
+      <div id="content_list_container" class="card_container_">
+        {% for record in data%}
+        <div class="accordion accordion-flush card_" id="content_accordion">
+          <input
+            name="schedule_id"
+            type="text"
+            value="{{record['id']}}"
+            hidden
+          />
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading-1">
+              <div
+                name="accordion_collapse"
+                class="accordion-button collapsed d-flex align-items-start justify-content-between"
+                data-bs-toggle="collapse"
+                data-bs-target="#item_{{ loop.index }}"
+                aria-expanded="false"
+                aria-controls="item_{{ loop.index }}"
+                style="cursor: pointer"
+              >
+                <div class="d-flex flex-column">
+                  <h5 class="content_title fw-bold mb-0" name="schedule_name">
+                    {{record.name}}
+                  </h5>
+                  <small class="text-secondary" name="modified_at">
+                    {{record["modified_at"]}}
+                  </small>
+                </div>
+              </div>
+            </h2>
+            <div
+              name="accordion_id"
+              ;
+              id="item_{{ loop.index }}"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-heading-1"
+              data-bs-parent="#content_accordion"
+            >
+              <div class="accordion-body content_text">
+                {% for task in record["task"]%}
+                <div class="container-fluid pb-4 big-container">
+                  <div
+                    class="d-flex align-items-center justify-content-between pb-3"
+                  >
+                    <h4 class="mb-0" name="task_name">{{task["task_name"]}}</h4>
+                  </div>
+                  <input
+                    type="text"
+                    value="{{task['task_name']}}"
+                    name="task_name"
+                    hidden
+                  />
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="floating-container">
+                        <div class="form-floating">
+                          <input
+                            type="time"
+                            class="form-control"
+                            id="time_begin"
+                            value="{{task['time_begin']}}"
+                            name="time_begin"
+                            readonly
+                          />
+                          <label for="time_begin" class="form-label"
+                            >Start Time</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="floating-container">
+                        <div class="form-floating">
+                          <input
+                            type="time"
+                            class="form-control"
+                            id="time_end"
+                            value="{{task['time_end']}}"
+                            name="time_end"
+                            readonly
+                          />
+                          <label for="time_end" class="form-label"
+                            >End Time</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p
+                    class="search-label mb-3"
+                    id="errorMsg_time_end"
+                    style="color: red; display: none"
+                  ></p>
+                  <div class="row g-6 mt-2">
+                    <div class="col-md-12">
+                      <div class="floating-container">
+                        <div class="form-floating">
+                          <input
+                            type="text"
+                            class="form-control border-0"
+                            id="location"
+                            value="{{task['location']}}"
+                            name="location"
+                            placeholder="Location"
+                            readonly
+                          />
+                          <label for="location">Location</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row g-6 mt-2">
+                    <div class="col-md-12">
+                      <div class="floating-container">
+                        <div class="form">
+                          <label
+                            for="description"
+                            style="position: relative; left: 0.8rem"
+                            class="form-label text-secondary small"
+                            >Description</label
+                          >
+                          <textarea
+                            class="form-control border-0"
+                            id="description"
+                            name="description"
+                            placeholder="sas "
+                            rows="4"
+                            style="
+                              white-space: pre-wrap;
+                              word-break: break-word;
+                            "
+                            readonly
+                          >
+{{task['description']}}</textarea
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                <div class="container-fluid pb-4">
+                  <div
+                    class="d-flex align-items-center justify-content-start gap-3"
+                  >
+                    <div style="width: 400px">
+                      <div class="floating-container">
+                        <div class="form-floating">
+                          <input
+                            type="date"
+                            class="form-control border-0"
+                            name="date"
+                            id="dateInput"
+                          />
+                          <label for="dateInput">Schedule New Date</label>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      class="fa fa-pencil-alt cercle-icons edit-icon"
+                      style="border: none; font-size: 1.2rem; color: white"
+                      onclick="schedule_task(this)"
+                    ></button>
+                    <div class="ms-auto">
+                      <button
+                        class="far fa-trash-alt cercle-icons delete-icon"
+                        style="border: none; font-size: 1.2rem; color: white"
+                        onclick="delete_task(this)"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor %}
+      </div>
+    </div>
+  </body>
+  <script type="module" src="static/JS/infinite_scrolling.js" defer></script>
+  <script type="module" src="static/JS/index.js" defer></script>
+</html>

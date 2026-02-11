@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  {% include "./partials/head.html" %}
+  <head> </head>
+  <body>
+    {% include "./partials/navbar.html" %} {% with messages =
+    get_flashed_messages() %} {% if messages %}
+    <h1>{{ messages[0] }}</h1>
+    {% endif %} {% endwith %}
+    <form
+      action="{{url_for('api.create_event')}}"
+      name="prompt_form"
+      method="post"
+    >
+      <div class="form-container" style="position: relative; top: 2rem">
+        <span class="form-badge bg-info bg-opacity-10 text-info"
+          >{{schedule_name}}</span
+        >
+        <input
+          type="text"
+          value="{{schedule_name}}"
+          name="schedule_name"
+          hidden
+        />
+        {% for task in Generated_Tasks%}
+        <div class="container-fluid pb-4 big-container">
+          <div class="d-flex align-items-center justify-content-between pb-3">
+            <h2 class="mb-0">{{task['task_name']}}</h2>
+            <button
+              type="button"
+              class="far fa-trash-alt cercle-icons delete-icon ms-3"
+              style="border: none"
+              onclick="delete_element(this)"
+            ></button>
+          </div>
+          <input
+            type="text"
+            value="{{task['task_name']}}"
+            name="task_name"
+            hidden
+          />
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="time_begin"
+                    value="{{task['time_begin']}}"
+                    name="time_begin"
+                  />
+                  <label for="time_begin" class="form-label">Start Time</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="time_end"
+                    value="{{task['time_end']}}"
+                    name="time_end"
+                  />
+                  <label for="time_end" class="form-label">End Time</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p
+            class="search-label mb-3"
+            id="errorMsg_time_end"
+            style="color: red; display: none"
+          ></p>
+          <div class="row g-6 mt-2">
+            <div class="col-md-12">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control border-0"
+                    id="location"
+                    value="{{task['location']}}"
+                    name="location"
+                    placeholder="Location"
+                  />
+                  <label for="location">Location</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-6 mt-2">
+            <div class="col-md-12">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <textarea
+                    class="form-control border-0"
+                    id="description"
+                    name="description"
+                    placeholder="sas "
+                    rows="4"
+                    onkeyup="adjust_text_area(this)"
+                    style="overflow: hidden"
+                  >
+{{task['description']}}</textarea
+                  >
+                  <label for="description">Description</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor %}
+        <input
+          type="text"
+          value="{{schedule_for}}"
+          name="schedule_for"
+          hidden
+        />
+        <div class="mt-4">
+          <button
+            class="btn btn-info text-white w-100 py-3 search-btn"
+            type="submit"
+            id="promptSubmit"
+            onclick="return validate_submission();"
+            value="submit"
+          >
+            submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </body>
+  <script src="../static/JS/task_finalize.js"></script>
+</html>

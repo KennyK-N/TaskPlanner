@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-white">
+  <div class="container-fluid w-75">
+    <a
+      class="navbar-brand fw-bolder"
+      href="/"
+      style="display: inline-block; transition: transform 0.15s ease"
+      onmouseover="this.style.transform = 'translateY(-2px)'"
+      onmouseout="this.style.transform = 'translateY(0)'"
+      >Home</a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link active text-black fw-bold hover-text-decoration-none"
+            aria-current="page"
+            href="{{url_for('api.prompt')}}"
+            style="display: inline-block; transition: transform 0.15s ease"
+            onmouseover="this.style.transform = 'translateY(-2px)'"
+            onmouseout="this.style.transform = 'translateY(0)'"
+            >Create New Prompt</a
+          >
+        </li>
+      </ul>
+
+      <a href="{{url_for('auth.revoke')}}" class="btn btn-outline-secondary"
+        >Logout</a
+      >
+    </div>
+  </div>
+</nav>

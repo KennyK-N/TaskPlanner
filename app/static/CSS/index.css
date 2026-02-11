@@ -1,0 +1,8 @@
+.card_.not_show {
+  opacity: 0;
+}
+
+.card_.show {
+  transform: translateX(0);
+  opacity: 1;
+}

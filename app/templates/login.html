@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  {% include "./partials/head.html" %}
+  <head>
+    <link rel="stylesheet" href="static/CSS/login.css" />
+  </head>
+  <body>
+    <div
+      class="main-bg vh-100 d-flex justify-content-center align-items-center"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-10 col-xl-10 mx-auto px-0">
+            {% include './partials/flash_message.html' %}
+          </div>
+          <div class="col-lg-11 px-0 login-card card">
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-6 py-3">
+                <div class="left w-75 mx-auto">
+                  <div class="brand py-3">
+                    <!-- <img src="" alt="LOgo"> -->
+                    <div class="logo text-primary">Task Planner</div>
+                  </div>
+                  <div class="py-lg-5 py-3">
+                    <div class="mb-4">
+                      <h1 class="fs-2">Login To Your Account</h1>
+                    </div>
+                    <a
+                      href="{{url_for('auth.authorize')}}"
+                      class="google btn btn-primary w-100 mb-4 fw-bold"
+                    >
+                      <img
+                        src="https://www.svgrepo.com/show/475656/google-color.svg"
+                        style="width: 24px"
+                      />
+                      Sign in with Google
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 py-3">
+                <div
+                  class="right d-flex justify-content-center align-items-flex-start position-relative px-lg-5 py-lg-0 py-md-4 px-4 py-4 flex-column"
+                >
+                  <div class="mb-lg-4 mb-3 pt-3">
+                    <h1 class="fs-4 text-white">Plan Smarter, Achieve More!</h1>
+                    <p class="fs-6 text-white mb-0">
+                      Use our user-friendly task planner to plan your tasks,
+                      increase productivity, and accomplish your objectives.
+                    </p>
+                  </div>
+
+                  <div>
+                    <img
+                      src="/static/images/TaskPlanner.png"
+                      alt="image"
+                      class="img-fluid"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

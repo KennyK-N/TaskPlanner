@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --bg: #ffffff;
+  --primary-bg: #4253f0;
+  --btn-primary: #4152ee;
+  --label: #313131;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+
+h1,
+h2 {
+  font-family: "Public Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+p {
+  font-family: "Public Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+label,
+button.btn {
+  font-family: "Public Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+.text-primary {
+  color: #4152ee !important;
+}
+
+.btn-primary {
+  background-color: var(--btn-primary) !important;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.fs-6 {
+  font-size: 14px !important;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+.form-label {
+  font-size: 14px;
+  color: var(--label);
+}
+.form-control {
+  padding: 8px 20px;
+  color: #7a869b;
+  border-radius: 8px;
+  font-size: 15px;
+}
+.form-control:focus {
+  box-shadow: none;
+}
+.main-bg {
+  background-color: var(--bg);
+}
+.login-card {
+  background-color: #fff;
+  border-radius: 20px;
+}
+.login-card .right {
+  background-color: var(--primary-bg);
+  height: 100%;
+  border-radius: 20px;
+}
+.google:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+@media only screen and (max-width: 992px) {
+  .main-bg.vh-100 {
+    height: auto !important;
+    padding: 20px 0;
+  }
+  .login-card {
+    border-radius: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .main-bg.vh-100 {
+    height: auto !important;
+  }
+  .left.w-75 {
+    width: 85% !important;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .main-bg.vh-100 {
+    padding: 0;
+  }
+  .login-card {
+    border-radius: 0px;
+  }
+}

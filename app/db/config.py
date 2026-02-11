@@ -1,0 +1,4 @@
+TABLE_NAME = "tasks"
+SUCCESS = 200
+ERROR = 400
+PAGE_SIZE = 5

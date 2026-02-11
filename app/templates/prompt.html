@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  {% include "./partials/head.html" %}
+  <body>
+    {% include "./partials/navbar.html" %}
+    <div
+      class="container d-flex justify-content-center align-items-center h-100"
+      style="min-height: 90vh"
+    >
+      <div
+        class="special-container form-container"
+        style="max-width: 800px; width: 75%"
+      >
+        {% include './partials/flash_message.html' %}
+        <h2 class="mb-4">Generate Tasks</h2>
+        <div class="mb-4">
+          <p class="search-label mb-3">
+            Please list the tasks you'd like to accomplish, separated by commas.
+            For example: apple, banana, cherry.
+          </p>
+        </div>
+        <form
+          action="{{url_for('api.task_finalize')}}"
+          name="prompt_form"
+          method="post"
+        >
+          <div class="row g-6">
+            <div class="col-md-12">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control border-0"
+                    id="itemsInput"
+                    name="itemsInput"
+                    placeholder="Enter up to a maximum of 5 items"
+                  />
+                  <label for="itemsInput"
+                    >Enter up to a maximum of 5 items</label
+                  >
+                </div>
+              </div>
+              <p
+                class="search-label mb-3"
+                id="errorMsg"
+                style="color: red; display: none"
+              ></p>
+            </div>
+          </div>
+
+          <div class="row g-6 mt-2">
+            <div class="col-md-12">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <input
+                    type="date"
+                    class="form-control border-0"
+                    name="date"
+                    id="dateInput"
+                  />
+                  <label for="dateInput">Select a date</label>
+                </div>
+              </div>
+              <p
+                class="search-label mb-3"
+                id="errorMsg"
+                style="color: red; display: none"
+              ></p>
+            </div>
+          </div>
+          <div class="row g-6 mt-2">
+            <div class="col-md-12">
+              <div class="floating-container">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control border-0"
+                    id="schedule_name"
+                    name="schedule_name"
+                    placeholder="Enter up to a maximum of 5 items"
+                  />
+                  <label for="schedule_name"
+                    >Enter a name for the current schedule</label
+                  >
+                </div>
+              </div>
+              <p
+                class="search-label mb-3"
+                id="errorMsg"
+                style="color: red; display: none"
+              ></p>
+            </div>
+          </div>
+          <div class="row g-3 mt-2">
+            <div class="col-md-12">
+              <div class="form-check form-switch">
+                <label class="search-label mb-3" for="flexSwitchCheckDefault"
+                  >Enable task generation based on nearby locations</label
+                >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="locationCheckbox"
+                  name="location"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button
+              id="promptSubmit"
+              class="btn btn-info text-white w-100 py-3 search-btn"
+              type="submit"
+              onclick="return checkform();"
+            >
+              <i class="bi bi-search me-2 animated-icon"></i> Generate Task
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script src="../static/JS/prompt.js" defer></script>
+  <script></script>
+</html>

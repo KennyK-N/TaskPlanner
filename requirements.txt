@@ -1,0 +1,16 @@
+Flask
+python-dotenv
+google-api-python-client
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+requests
+geopy 
+geocoder
+google-genai
+pydantic
+python-dateutil
+sqlalchemy
+Flask-SQLAlchemy
+psycopg2-binary
+bleach

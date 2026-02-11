@@ -1,0 +1,27 @@
+services:
+  flask-web-server:
+    image: "flask_server"
+    build: .
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      FLASK_DEBUG: 1
+    container_name: flask-server
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl",
+          "-f",
+          "${APPLICATION_LAYER_PROTOCOL}://${HOST}:${PORT}",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    entrypoint: ["python"]
+    command: run.py
