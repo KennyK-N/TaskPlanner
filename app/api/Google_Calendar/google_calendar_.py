@@ -8,6 +8,14 @@ from app.util import *
 
 
 def create_calendar(task_list, date):
+    """
+    Creates Google Calendar events for each task in the list on the given date.
+    Args:
+        task_list (list | str): List of task dicts, or a JSON string that will be parsed into one.
+        date (str): The target date for all events e.g. "2025-01-01".
+    Returns:
+        CalendarStatus: SUCCESS if all events were created, REVOKE if credentials are expired, EMPTY on any failure.
+    """
     client_config = OAUTH_INFO["CLIENT_SECRETS_FILE"]["web"]
     session_credentials = session["credentials"]
 
@@ -43,7 +51,10 @@ def create_calendar(task_list, date):
             )
 
             if begin_time is None or end_time is None:
-                continue
+                if(len(task_list)) == 1: 
+                    raise Exception("Invalid Task List")
+                else:
+                    continue
 
             event = {
                 "summary": task["task_name"],
@@ -66,5 +77,5 @@ def create_calendar(task_list, date):
 
         return general_utils.CalendarStatus.SUCCESS
     except Exception as exception:
-        print(exception)
+        print("Error ", exception)
         return general_utils.CalendarStatus.EMPTY

@@ -176,7 +176,7 @@ const ScheduleButtonTemplate = `
       </div>
     </div>
     <button
-      class="fa fa-pencil-alt cercle-icons edit-icon"
+      class="fa fa-calendar-alt cercle-icons edit-icon"
       style="border: none; font-size: 1.2rem; color: white"
       onclick="schedule_task(this)"
     ></button>

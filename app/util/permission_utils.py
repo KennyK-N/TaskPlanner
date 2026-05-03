@@ -4,6 +4,13 @@ from .general_utils import FEATURES, CREDENTIALS
 
 
 def check_granted_scopes(credentials):
+    """
+    Checks which Google API scopes the user has been granted and returns a feature flag dict.
+    Args:
+        credentials (dict): The user's OAuth credentials containing granted_scopes.
+    Returns:
+        dict: e.g. {"calendar": True} or {"calendar": False}.
+    """
     features = {}
     if "https://www.googleapis.com/auth/calendar" in credentials["granted_scopes"]:
         features["calendar"] = True
@@ -14,6 +21,13 @@ def check_granted_scopes(credentials):
 
 
 def credentials_to_dict(credentials):
+    """
+    Converts a Google OAuth credentials object into a plain dict for session storage.
+    Args:
+        credentials (google.oauth2.credentials.Credentials): The credentials object.
+    Returns:
+        dict: Contains token, refresh_token, and granted_scopes.
+    """
     return {
         "token": credentials.token,
         "refresh_token": credentials.refresh_token,
@@ -22,6 +36,11 @@ def credentials_to_dict(credentials):
 
 
 def check_calendar_access():
+    """
+    Checks if the current session user has been granted Google Calendar access.
+    Returns:
+        bool: True if calendar access is granted, False otherwise.
+    """
     from app.auth.authentication import refresh_token
 
     if FEATURES not in session:
@@ -35,6 +54,11 @@ def check_calendar_access():
 
 
 def check_view_access():
+    """
+    Checks if the user is logged in by looking for credentials in the session.
+    Returns:
+        bool: True if credentials exist in the session, False otherwise.
+    """
     if CREDENTIALS in session:
         return True
     else:

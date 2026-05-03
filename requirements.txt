@@ -14,3 +14,7 @@ sqlalchemy
 Flask-SQLAlchemy
 psycopg2-binary
 bleach
+Pytest
+pytest-mock
+redis
+hiredis

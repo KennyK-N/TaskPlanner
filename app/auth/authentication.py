@@ -11,6 +11,11 @@ from app.util import *
 
 @auth.route("/authorize", methods=["GET"])
 def authorize():
+    """
+    Redirects logged-in users to home, or kicks off the Google OAuth flow for everyone else.
+    Returns:
+        Response: Redirect to home if already logged in, or to Google's OAuth consent screen.
+    """
     HasViewAccess = permission_utils.check_view_access()
     if HasViewAccess:
         return redirect(url_for("app_route.home"))
@@ -26,12 +31,18 @@ def authorize():
     )
 
     session["state"] = state
+    session["code_verifier"] = flow.code_verifier
 
     return redirect(authorization_url)
 
 
 @auth.route("/oauth2callback", methods=["GET"])
 def oauth2callback():
+    """
+    Handles the Google OAuth callback, saves credentials and features to the session, then redirects home.
+    Returns:
+        Response: Redirect to home on success, or home with a flashed error on failure.
+    """
     try:
         state = session["state"]
 
@@ -43,7 +54,8 @@ def oauth2callback():
         flow.redirect_uri = url_for("auth.oauth2callback", _external=True)
 
         authorization_response = request.url
-
+        flow.code_verifier = session.get("code_verifier")
+        
         flow.fetch_token(authorization_response=authorization_response)
 
         credentials = flow.credentials
@@ -63,12 +75,17 @@ def oauth2callback():
         return redirect(url_for("app_route.home"))
     except Exception as exception:
         print(exception)
-        redirect_message = {"success": False, "message": "Failed to login"}
+        redirect_message = {"success": False, "message": f"Failed to login. {exception}"}
         flash(redirect_message)
         return redirect(url_for("app_route.home"))
 
 
 def refresh_token():
+    """
+    Refreshes the user's OAuth access token and updates their credentials and profile info in the session.
+    Returns:
+        None
+    """
     try:
         client_config = OAUTH_INFO["CLIENT_SECRETS_FILE"]["web"]
 
@@ -102,6 +119,11 @@ def refresh_token():
 
 @auth.route("/revoke", methods=["GET"])
 def revoke():
+    """
+    Revokes the user's Google OAuth token, clears their session, and redirects home.
+    Returns:
+        Response: Redirect to home with a success or failure flash message.
+    """
     HasViewAccess = permission_utils.check_view_access()
     try:
         if HasViewAccess == False:

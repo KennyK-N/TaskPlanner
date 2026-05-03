@@ -2,16 +2,21 @@ from .Google_Calendar import google_calendar_
 from .Geocoding import geocoding_
 from .Gemini import gemini_
 from flask import render_template, jsonify, request, redirect, url_for, flash
-from . import api
+from . import api_bp 
 from app.auth.authentication import refresh_token
 from app.util import *
-from app.db import model as db_services
+from app.database import crud as db_services
 
 MAX_TASK_LIST_SIZE = 5
 
 
-@api.route("/prompt", methods=["GET"])
+@api_bp.route("/prompt", methods=["GET"])
 def prompt():
+    """
+    Renders the task prompt page if the user has view and calendar access, otherwise redirects home.
+    Returns:
+        str | Response: Rendered prompt.html, or a redirect to home with a flashed error.
+    """
     HasViewAccess = permission_utils.check_view_access()
     HasCalendarAccess = permission_utils.check_calendar_access()
 
@@ -28,8 +33,13 @@ def prompt():
     return render_template("prompt.html")
 
 
-@api.route("/task_finalize", methods=["POST", "GET"])
+@api_bp.route("/task_finalize", methods=["POST", "GET"])
 def task_finalize():
+    """
+    Takes the user's task list, passes it to Gemini to generate a schedule, then renders a preview page.
+    Returns:
+        str | Response: Rendered task_finalize.html on success, or a redirect with a flashed error.
+    """
     HasViewAccess = permission_utils.check_view_access()
     HasCalendarAccess = permission_utils.check_calendar_access()
 
@@ -87,8 +97,13 @@ def task_finalize():
     return redirect(url_for("api.prompt"))
 
 
-@api.route("/create_event", methods=["POST", "GET"])
+@api_bp.route("/create_event", methods=["POST", "GET"])
 def create_event():
+    """
+    Validates the finalized schedule, pushes it to Google Calendar, and saves it to the database.
+    Returns:
+        Response: Redirect to prompt on success or failure, or to revoke if permissions are invalid.
+    """
     HasViewAccess = permission_utils.check_view_access()
     HasCalendarAccess = permission_utils.check_calendar_access()
 
@@ -168,8 +183,16 @@ def create_event():
     return redirect(url_for("api.prompt"))
 
 
-@api.route("/create_google_schedule", methods=["POST"])
+@api_bp .route("/create_google_schedule", methods=["POST"])
 def create_schedule():
+    """
+    Reschedules an existing saved task to a new date on Google Calendar.
+    Args:
+        TaskId (int): Query param for the saved task to reschedule e.g. /create_google_schedule?TaskId=1&date=2025-01-01.
+        date (str): Query param for the new target date.
+    Returns:
+        Response: JSON with success (bool) and a message or error string.
+    """
     HasViewAccess = permission_utils.check_view_access()
     HasCalendarAccess = permission_utils.check_calendar_access()
 
@@ -195,7 +218,7 @@ def create_schedule():
     status = google_calendar_.create_calendar(task_list=data, date=date)
 
     if status is general_utils.CalendarStatus.REVOKE:
-        return (jsonify({"success": False, "message": "Invalid Permissions"}),)
+        return jsonify({"success": False, "error": "Invalid Permissions"})
 
     if status is general_utils.CalendarStatus.EMPTY:
         return jsonify(

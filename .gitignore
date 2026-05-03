@@ -208,3 +208,5 @@ __marimo__/
 
 # Ignore test_del_later folder
 test_del_later/
+old_test_*.py
+*old_test.py

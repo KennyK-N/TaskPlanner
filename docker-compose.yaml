@@ -25,3 +25,13 @@ services:
       start_period: 10s
     entrypoint: ["python"]
     command: run.py
+  redis:
+    image: redis:7
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: always
+volumes:
+  redis-data:

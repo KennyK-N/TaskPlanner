@@ -5,6 +5,6 @@ db = SQLAlchemy()
 
 db_bp = Blueprint("db", __name__)
 
-from . import model
+from . import crud, views
 
-__all__ = ["db_bp", "model", "db"]
+__all__ = ["db_bp", "crud", "db", "views"]
