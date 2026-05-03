@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from flask import Flask
 import os
+
 load_dotenv(".env")
 
 from . import app_config
@@ -9,6 +10,7 @@ from app.api import *
 from app.auth import *
 from app.database import *
 from app.redis import *
+
 
 def create_app():
     gemini = gemini_.gemini_init()

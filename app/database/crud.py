@@ -7,6 +7,7 @@ from .config import SUCCESS, ERROR, PAGE_SIZE
 from .model import Tasks
 from app.redis.redis_func import *
 
+
 def init_table(app):
     """
     Creates all database tables and enables row level security on the Tasks table.
@@ -19,6 +20,7 @@ def init_table(app):
         db.create_all()
         db.session.execute(text("ALTER TABLE Tasks ENABLE ROW LEVEL SECURITY;"))
         db.session.commit()
+
 
 def insert_task(data, schedule_name):
     """
@@ -36,15 +38,12 @@ def insert_task(data, schedule_name):
         db.session.add(task)
         db.session.commit()
         key = f"{user_id}{general_utils.REDIS_RECORD_KEY_FORMAT}{task.id}"
-        task_value = {
-            "id": task.id,
-            "data": data,
-            "name": task.name
-        }
+        task_value = {"id": task.id, "data": data, "name": task.name}
         redis_invalidate(key, user_id)
         redis_set(key, json.dumps(task_value))
     except Exception as exception:
         print("Error:", exception)
+
 
 def retrieve_tasks(offset):
     """
@@ -62,9 +61,11 @@ def retrieve_tasks(offset):
 
         if cached != None:
             return json.loads(cached)
-        
+
         query = db.paginate(
-            db.select(Tasks).where(Tasks.oauth_id == user_id).order_by(Tasks.modified_at),
+            db.select(Tasks)
+            .where(Tasks.oauth_id == user_id)
+            .order_by(Tasks.modified_at),
             page=page,
             per_page=PAGE_SIZE,
         )
@@ -96,6 +97,7 @@ def retrieve_tasks(offset):
         print("Error:", exception)
         return {"status": ERROR}
 
+
 def retrieve_single_item(task_id):
     """
     Fetches a single task by id from Redis or the database.
@@ -110,7 +112,7 @@ def retrieve_single_item(task_id):
         cached = redis_get(key)
         if cached:
             return json.loads(cached)
-        
+
         query = (
             db.session.execute(
                 db.select(Tasks).where(
@@ -128,6 +130,7 @@ def retrieve_single_item(task_id):
         print("Error:", exception)
         return None
 
+
 def delete_task(task_id):
     """
     Deletes a task from the database and invalidates its Redis cache entries.
@@ -142,7 +145,7 @@ def delete_task(task_id):
 
         user_id = int(json.loads(session["profile_info"])["id"])
         key = f"{user_id}{general_utils.REDIS_RECORD_KEY_FORMAT}{task_id}"
-    
+
         query = (
             db.session.execute(
                 db.select(Tasks).where(
@@ -161,4 +164,3 @@ def delete_task(task_id):
     except Exception as exception:
         print("Error:", exception)
         return {"success": False, "message": f"Failed to deleted task{task_id}"}
-

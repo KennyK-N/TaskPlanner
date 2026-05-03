@@ -2,7 +2,7 @@ from .Google_Calendar import google_calendar_
 from .Geocoding import geocoding_
 from .Gemini import gemini_
 from flask import render_template, jsonify, request, redirect, url_for, flash
-from . import api_bp 
+from . import api_bp
 from app.auth.authentication import refresh_token
 from app.util import *
 from app.database import crud as db_services
@@ -183,7 +183,7 @@ def create_event():
     return redirect(url_for("api.prompt"))
 
 
-@api_bp .route("/create_google_schedule", methods=["POST"])
+@api_bp.route("/create_google_schedule", methods=["POST"])
 def create_schedule():
     """
     Reschedules an existing saved task to a new date on Google Calendar.

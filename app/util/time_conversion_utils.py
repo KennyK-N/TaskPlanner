@@ -32,7 +32,6 @@ def convert_HHMM_to_iso_datetime(date, HHMM):
 
 
 def utc_to_local_timezone(date):
-
     """
     Converts a UTC datetime to a human-readable local time string.
     Args:

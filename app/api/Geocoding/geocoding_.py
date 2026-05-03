@@ -6,6 +6,7 @@ from .config import *
 import json
 from flask import session
 
+
 def get_addr():
     """
     Returns the user's current address by IP lookup, pulling from Redis cache if available.
@@ -16,10 +17,10 @@ def get_addr():
     key = f"{id}{REDIS_USER_ADDR_KEY_FORMAT}"
 
     val = redis_get(key)
-    
+
     if val is not None:
         return val
-    
+
     g = geocoder.ip(IP_LOC)
     latlng = g.latlng
 
@@ -31,5 +32,5 @@ def get_addr():
     addr = location.address
 
     redis_set(key, addr)
-    
+
     return addr

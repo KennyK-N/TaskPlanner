@@ -4,6 +4,7 @@ from app.util import *
 
 from .crud import delete_task, retrieve_tasks
 
+
 @db_bp.route("/retrieve", methods=["GET"])
 def pagination_result():
     """
@@ -16,6 +17,7 @@ def pagination_result():
     offset = request.args.get("offset", type=int)
     query = retrieve_tasks(offset)
     return query
+
 
 @db_bp.route("/delete", methods=["DELETE"])
 def delete_cur_task():

@@ -6,6 +6,7 @@ from .config import TABLE_NAME
 
 class Tasks(db.Model):
     """SQLAlchemy model representing a saved schedule in the tasks table."""
+
     __tablename__ = TABLE_NAME
     id = db.Column(Integer, primary_key=True)
     modified_at = db.Column(TIMESTAMP(timezone=True), default=func.now())

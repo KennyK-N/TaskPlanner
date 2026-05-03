@@ -55,7 +55,7 @@ def oauth2callback():
 
         authorization_response = request.url
         flow.code_verifier = session.get("code_verifier")
-        
+
         flow.fetch_token(authorization_response=authorization_response)
 
         credentials = flow.credentials
@@ -75,7 +75,10 @@ def oauth2callback():
         return redirect(url_for("app_route.home"))
     except Exception as exception:
         print(exception)
-        redirect_message = {"success": False, "message": f"Failed to login. {exception}"}
+        redirect_message = {
+            "success": False,
+            "message": f"Failed to login. {exception}",
+        }
         flash(redirect_message)
         return redirect(url_for("app_route.home"))
 

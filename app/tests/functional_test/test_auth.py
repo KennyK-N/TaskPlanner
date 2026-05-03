@@ -2,7 +2,8 @@ import pytest
 from unittest.mock import MagicMock
 from flask import session
 
-HOME = "/" 
+HOME = "/"
+
 
 def test_authorize_already_logged_in(mocker, client):
     """User already has credentials in session so they're redirected straight to home."""
@@ -10,7 +11,6 @@ def test_authorize_already_logged_in(mocker, client):
     res = client.get("/authorize")
     assert res.status_code == 302
     assert res.location == HOME
-    
 
 
 def test_authorize_starts_oauth_flow(mocker, client):
@@ -18,7 +18,10 @@ def test_authorize_starts_oauth_flow(mocker, client):
     mocker.patch("app.util.permission_utils.check_view_access", return_value=False)
 
     mock_flow = MagicMock()
-    mock_flow.authorization_url.return_value = ("https://accounts.google.com/auth", "mock_state")
+    mock_flow.authorization_url.return_value = (
+        "https://accounts.google.com/auth",
+        "mock_state",
+    )
     mock_flow.code_verifier = "mock_verifier"
 
     mocker.patch(
@@ -91,6 +94,7 @@ def test_oauth2callback_preserves_old_refresh_token(mocker, client):
     assert res.status_code == 302
     assert res.location == HOME
 
+
 def test_oauth2callback_missing_state_fails(mocker, client):
     """Missing session state causes an exception which is caught and redirects to home."""
     mocker.patch(
@@ -101,6 +105,7 @@ def test_oauth2callback_missing_state_fails(mocker, client):
     res = client.get("/oauth2callback?code=mock_code")
     assert res.status_code == 302
     assert res.location == HOME
+
 
 def test_oauth2callback_fetch_token_fails(mocker, client):
     """fetch_token raises an exception which is caught and redirects to home."""
@@ -119,6 +124,7 @@ def test_oauth2callback_fetch_token_fails(mocker, client):
     res = client.get("/oauth2callback?state=mock_state&code=bad_code")
     assert res.status_code == 302
     assert res.location == HOME
+
 
 def test_refresh_token_success(mocker, flask_app_mock):
     """Valid session credentials refresh successfully and profile_info is saved to session."""
@@ -151,7 +157,7 @@ def test_refresh_token_success(mocker, flask_app_mock):
         }
         refresh_token()
         assert session["profile_info"] == mock_response.text
-    
+
 
 def test_refresh_token_fails_gracefully(mocker, flask_app_mock):
     """Credentials constructor raises an exception which is caught silently without crashing."""
@@ -168,7 +174,7 @@ def test_refresh_token_fails_gracefully(mocker, flask_app_mock):
             "refresh_token": "rt",
             "granted_scopes": ["email"],
         }
-        refresh_token() 
+        refresh_token()
 
 
 def test_refresh_token_missing_credentials(mocker, flask_app_mock):
@@ -213,6 +219,7 @@ def test_revoke_success(mocker, client):
     assert res.status_code == 302
     assert res.location == HOME
 
+
 def test_revoke_not_logged_in(mocker, client):
     """User has no credentials so the exception is caught and redirects to home."""
     mocker.patch("app.util.permission_utils.check_view_access", return_value=False)
@@ -220,6 +227,7 @@ def test_revoke_not_logged_in(mocker, client):
     res = client.get("/revoke")
     assert res.status_code == 302
     assert res.location == HOME
+
 
 def test_revoke_post_request_fails(mocker, client):
     """requests.post raises a network error which is caught and redirects to home."""

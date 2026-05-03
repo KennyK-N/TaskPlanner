@@ -21,6 +21,7 @@ def validate_hhmm_format(value: str) -> str:
 
 class Schedule_task(BaseModel):
     """Pydantic model for a single generated task"""
+
     task_name: str
     description: str
     time_begin: str
@@ -28,6 +29,7 @@ class Schedule_task(BaseModel):
     location: str
 
     """validates that time fields are in HH:MM format."""
+
     @field_validator("time_begin", "time_end")
     def validate_time_format(cls, time_val: str) -> str:
         is_HHMM_Format = validate_hhmm_format(time_val)

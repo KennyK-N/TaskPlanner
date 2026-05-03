@@ -51,7 +51,7 @@ def create_calendar(task_list, date):
             )
 
             if begin_time is None or end_time is None:
-                if(len(task_list)) == 1: 
+                if (len(task_list)) == 1:
                     raise Exception("Invalid Task List")
                 else:
                     continue

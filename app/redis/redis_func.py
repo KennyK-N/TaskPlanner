@@ -3,20 +3,23 @@ import os
 from flask import current_app
 from app.util.general_utils import *
 
+
 class RedisConfig:
     """
     Holds a shared Redis connection pool configured from the environment variables.
     """
+
     pool = redis.ConnectionPool(
-        host=os.getenv('REDIS_HOST', 'localhost'),
-        port=int(os.getenv('REDIS_PORT', 6379)),
-        db=int(os.getenv('REDIS_DB', 0)),
-        max_connections=20,  
+        host=os.getenv("REDIS_HOST", "localhost"),
+        port=int(os.getenv("REDIS_PORT", 6379)),
+        db=int(os.getenv("REDIS_DB", 0)),
+        max_connections=20,
         decode_responses=True,
-        socket_connect_timeout=5,  
-        socket_timeout=5,          
-        retry_on_timeout=True      
+        socket_connect_timeout=5,
+        socket_timeout=5,
+        retry_on_timeout=True,
     )
+
 
 def redis_init():
     """
@@ -25,6 +28,7 @@ def redis_init():
         redis.Redis: A Redis client instance.
     """
     return redis.Redis(connection_pool=RedisConfig.pool)
+
 
 def redis_get(key):
     """
@@ -35,15 +39,16 @@ def redis_get(key):
         str | None: The cached value, or None if not found or Redis fails.
     """
     redis = current_app.extensions["redis"]
-    
+
     try:
         value = redis.get(key)
-        
+
     except Exception as exception:
         print(str(exception))
         value = None
 
     return value
+
 
 def redis_invalidate(key, user_id):
     """
@@ -63,13 +68,14 @@ def redis_invalidate(key, user_id):
         while True:
             cursor, keys = redis.scan(cursor=cursor, match=pattern, count=100)
             if keys:
-                redis.delete(*keys) 
+                redis.delete(*keys)
 
             if cursor == 0:
                 break
 
     except Exception as exception:
         print(str(exception))
+
 
 def redis_set(key, value):
     """
