@@ -1,4 +1,4 @@
-# AI Schedule Planner
+# TaskPlanner
 
 A Flask web app that uses Google Gemini to automatically generate a daily schedule from a list of tasks, then pushes the result directly to Google Calendar.
 
@@ -68,8 +68,9 @@ In your [Google Cloud Console](https://console.cloud.google.com/):
 
 1. Go to **APIs & Services → Credentials**
 2. Create an **OAuth 2.0 Client ID** (Web application)
-3. Add `http://localhost:5000/oauth2callback` as an authorised redirect URI
-4. Make sure `CLIENT_ID`, `PROJECT_ID`, and `CLIENT_SECRET` in your `.env` match the corresponding credentials
+3. Add `http://localhost:5000` as an Authorized JavaScript origins
+4. Add `http://localhost:5000/oauth2callback` as an authorised redirect URI
+5. Make sure `CLIENT_ID`, `PROJECT_ID`, and `CLIENT_SECRET` in your `.env` match the corresponding credentials
 
 ---
 
